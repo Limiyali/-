@@ -510,6 +510,19 @@ void delte_sign(char A[MAX_AVALIABLE_NUM][MAX_NAME], char D[], int num)
 	}
 }
 
+int find_sign(char A[MAX_AVALIABLE_NUM][MAX_NAME], char D[], int num)
+{
+	int i = 0;
+	for (int i = 0; i < num; i++)
+	{
+		if (!strcmp(A[i], D))
+		{
+			return 1;
+		}
+	}
+	return 0;
+}
+
 void return_book(BList *bhead, SList *shead, PList *phead)
 {
 	START
@@ -531,9 +544,17 @@ void return_book(BList *bhead, SList *shead, PList *phead)
 		}
 		sresult = sresult->next;
 		BList*bresult = find_borrowbook_byID(bhead, Borrow_ID);
+#if 0
 		if (!bresult)
 		{
 			printf("%s is returned.\n", Borrow_ID);
+			END;
+			return;
+		}
+#endif
+		if (!find_sign(presult->value.BorrowID, Borrow_ID, presult->value.BorrowNum))
+		{
+			printf("No,you not have this book!\n");
 			END;
 			return;
 		}
@@ -641,8 +662,9 @@ void load(BList *bhead, SList *shead, PList *phead)
 			bhead->next = bcurrent;
 			bhead = bcurrent;
 		}
+		fclose(fp);
 	}
-	fclose(fp);
+
 	if ((fp = fopen("SList", "r")) == NULL)
 		printf("Error! can't open file.\n");
 	else
@@ -704,7 +726,7 @@ void help()
 {
 	START
 		printf("0.显示帮助\n1.添加新书\n2.找书\n3.编辑库存资料\n4.删除书\n5.列出书\n6.添加借书证\n7.查找\
-借书证\n8.注销\n9.挂失\n10.解冻\n11.列出所有成员\n12.借书\n13.列出借的书\n14.还书\n15.加载数据\n16.保存数据\n20.删库跑路\n");
+借书证\n8.注销\n9.挂失\n10.解冻\n11.列出所有成员\n12.借书\n13.列出借的书\n14.还书\n15.加载数据\n16.保存数据\n17.人气排序\n20.删库跑路\n");
 	END;
 }
 
@@ -749,6 +771,47 @@ void emplty(BList *bhead, SList *shead, PList *phead)
 	}
 	btemp->next = NULL; stemp->next = NULL; ptemp->next = NULL;
 	printf("已清空\n");
+	END
+}
+
+int cmp(const void *a,const void *b)
+{
+	SList *c = (SList*)a;
+	SList *d = (SList*)b;
+	return (c->value.AllBorrow < d->value.AllBorrow);
+}
+
+void sort_book(SList *head)
+{
+	START
+		int all = 0;
+	SList*temp = head;
+	while (head->next) all++, head = head->next;
+	SList *Data = (SList*)malloc(sizeof(SList)*all);
+	int i = 0;
+	head = temp;
+	while (head->next)
+	{
+		Data[i] = *(head->next);
+		head = head->next;
+		i++;
+	}
+	qsort(Data, all, sizeof(SList), cmp);
+	for (int i = 0; i < all; i++)
+	{
+		printf("Book name:                   %s\n", Data[i].value.Book_Name);
+		printf("Author name:                 %s\n", Data[i].value.Author_Name);
+		printf("Press name:                  %s\n", Data[i].value.Press);
+		printf("Category:                    %s\n", Data[i].value.Category);
+		printf("Press date:                  "); read_date(Data[i].value.Press_Date);
+		printf("Price:                       %d\n", Data[i].value.Price);
+		printf("All have numnber:            %d\n", Data[i].value.All_Have);
+		printf("Borrow number:               %d\n", Data[i].value.Borrownum);
+		printf("Current have number:         %d\n", Data[i].value.All_Have - Data[i].value.Borrownum);
+		printf("****************************************************************\n");
+		printf("All borrow number:           %d\n\n", Data[i].value.AllBorrow);
+		printf("****************************************************************\n");
+	}
 	END
 }
 
@@ -815,6 +878,9 @@ int main()
 			break;
 		case 16:                           //保存数据
 			save(BHead, SHead, PHead);
+			break;
+		case 17:                           //人气排序
+			sort_book(SHead);
 			break;
 		case 20:                           //清空
 			emplty(BHead, SHead, PHead);
