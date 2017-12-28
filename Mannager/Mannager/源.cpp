@@ -68,7 +68,7 @@ int avaliable(int start, int end, int input)
 {
 	while (input > end || input < start)
 	{
-		printf("Please input value between %d and %d.\n", start, end);
+		printf("请输入%d到%d之间的值.\n", start, end);
 		scanf("%d", &input);
 	}
 	return input;
@@ -83,7 +83,7 @@ void init_date(Date *A)
 
 void write_date(Date *A, char B[])
 {
-	printf("%sExample 1998 1 1\n", B);
+	printf("%s例如 1998 1 1\n", B);
 	scanf("%d %d %d", &(A->Year), &(A->Month), &(A->Day));
 }
 
@@ -137,34 +137,34 @@ void add_book_store(SList *head)
 {
 	START
 		SList *added = (SList*)malloc(sizeof(SList));
-	printf("Please input book index.\n");
+	printf("请输入书籍编号.\n");
 	scanf("%s", added->value.Index);
 	if (find_store_book(head, added->value.Index))
-		printf("Error!Book is exist!\n"), free(added);
+		printf("错误！书籍已存在！\n"), free(added);
 	else
 	{
-		printf("Please input book name.\n");
+		printf("请输入书名.\n");
 		scanf("%s", added->value.Book_Name);
-		printf("Please input author name.\n");
+		printf("请输入作者.\n");
 		scanf("%s", added->value.Author_Name);
-		printf("Please input press name.\n");
+		printf("请输入出版社.\n");
 		scanf("%s", added->value.Press);
-		printf("Please input category.\n");
+		printf("请输入类别.\n");
 		scanf("%s", added->value.Category);
-		write_date(&(added->value.Press_Date), "Please input press date.");
-		printf("Please input price.\n");
+		write_date(&(added->value.Press_Date), "请输入出版日期.");
+		printf("请输入价格.\n");
 		scanf("%d", &(added->value.Price));
-		printf("Please input all have numnber.\n");
+		printf("请输入库存.\n");
 		scanf("%d", &(added->value.All_Have));
-		printf("Please input current borrow number.\n");
+		printf("请输入外借数.\n");
 		scanf("%d", &(added->value.Borrownum));
 		added->value.Current_Have = added->value.All_Have - added->value.Borrownum;
-		printf("Please input all borrrow number.\n");
+		printf("请输入总借出数.\n");
 		scanf("%d", &(added->value.AllBorrow));
 		while (head->next)   head = head->next;
 		added->next = NULL;
 		head->next = added;
-		printf("Aded\n\n");
+		printf("已添加\n\n");
 	}
 	END
 }
@@ -173,25 +173,25 @@ void find_book_store(SList*head)
 {
 	START
 		char temp[MAX_NAME];
-	printf("Please input find book's index.\n");
+	printf("请输入需要寻找的书籍编号.\n");
 	scanf("%s", temp);
 	SList *result = find_store_book(head, temp);
 	if (result)
 	{
 		result = result->next;
-		printf("Book name:                   %s\n", result->value.Book_Name);
-		printf("Author name:                 %s\n", result->value.Author_Name);
-		printf("Press name:                  %s\n", result->value.Press);
-		printf("Category:                    %s\n", result->value.Category);
-		printf("Press date:                  "); read_date(result->value.Press_Date);
-		printf("Price:                       %d\n", result->value.Price);
-		printf("All have numnber:            %d\n", result->value.All_Have);
-		printf("Borrow number:               %d\n", result->value.Borrownum);
-		printf("Current have number:         %d\n", result->value.All_Have - result->value.Borrownum);
-		printf("All borrow number:           %d\n", result->value.AllBorrow);
+		printf("书名:                   %s\n", result->value.Book_Name);
+		printf("作者:                   %s\n", result->value.Author_Name);
+		printf("出版社:                 %s\n", result->value.Press);
+		printf("类别:                   %s\n", result->value.Category);
+		printf("出版日期:               "); read_date(result->value.Press_Date);
+		printf("价格:                   %d\n", result->value.Price);
+		printf("库存:                   %d\n", result->value.All_Have);
+		printf("借出:                   %d\n", result->value.Borrownum);
+		printf("在库:                   %d\n", result->value.All_Have - result->value.Borrownum);
+		printf("总借出:                 %d\n", result->value.AllBorrow);
 		return;
 	}
-	printf("%s is not exist!\n", temp);
+	printf("%s 不存在!\n", temp);
 	END
 }
 
@@ -199,28 +199,29 @@ void edit_book_store(SList *head)
 {
 	START
 		char Index[MAX_NAME];
-	printf("Please input edit book's index.\n");
+	printf("请输入待编辑书籍编号.\n");
 	scanf("%s", Index);
 	SList *result = find_store_book(head, Index);
 	result = result->next;
-	printf("Please input book name.\n");
+	printf("请输入书名.\n");
 	scanf("%s", result->value.Book_Name);
-	printf("Please input author name.\n");
+	printf("请输入作者名.\n");
 	scanf("%s", result->value.Author_Name);
-	printf("Please input press name.\n");
+	printf("请输入出版社.\n");
 	scanf("%s", result->value.Press);
-	printf("Please input category.\n");
+	printf("请输入类别.\n");
 	scanf("%s", result->value.Category);
-	write_date(&(result->value.Press_Date), "Please input press date.");
-	printf("Please input price.\n");
+	write_date(&(result->value.Press_Date), "请输入出版日期.");
+	printf("请输入价格.\n");
 	scanf("%d", &(result->value.Price));
-	printf("Please input all have numnber.\n");
+	printf("请输入库存.\n");
 	scanf("%d", &(result->value.All_Have));
-	printf("Please input current borrow number.\n");
+	printf("请输入外借数.\n");
 	scanf("%d", &(result->value.Borrownum));
 	result->value.Current_Have = result->value.All_Have - result->value.Borrownum;
-	printf("Please input all borrrow number.\n");
+	printf("请输入总借出数.\n");
 	scanf("%d", &(result->value.AllBorrow));
+	printf("已修改\n");
 	END
 }
 
@@ -228,7 +229,7 @@ void delete_book_store(SList*head)
 {
 	START
 		char Index[MAX_NAME];
-	printf("Please input delete book's index.\n");
+	printf("请输入需要删除的书籍编号.\n");
 	scanf("%s", Index);
 	SList *pre = find_store_book(head, Index);
 	SList *current = pre->next;
@@ -236,10 +237,10 @@ void delete_book_store(SList*head)
 	{
 		pre->next = current->next;
 		free(current);
-		printf("%s is deleted!\n", Index);
+		printf("%s已删除!\n", Index);
 	}
 	else
-		printf("Error!%s is not exist!\n", Index);
+		printf("错误!%s不存在!\n", Index);
 	END
 }
 
@@ -249,16 +250,16 @@ void list_book_store(SList *head)
 		while (head->next)
 		{
 			head = head->next;
-			printf("Book name:                   %s\n", head->value.Book_Name);
-			printf("Author name:                 %s\n", head->value.Author_Name);
-			printf("Press name:                  %s\n", head->value.Press);
-			printf("Category:                    %s\n", head->value.Category);
-			printf("Press date:                  "); read_date(head->value.Press_Date);
-			printf("Price:                       %d\n", head->value.Price);
-			printf("All have numnber:            %d\n", head->value.All_Have);
-			printf("Borrow number:               %d\n", head->value.Borrownum);
-			printf("Current have number:         %d\n", head->value.All_Have - head->value.Borrownum);
-			printf("All borrow number:           %d\n\n\n", head->value.AllBorrow);
+			printf("书名:             %s\n", head->value.Book_Name);
+			printf("作者:             %s\n", head->value.Author_Name);
+			printf("出版社:           %s\n", head->value.Press);
+			printf("类别:             %s\n", head->value.Category);
+			printf("出版日期:         "); read_date(head->value.Press_Date);
+			printf("价格:             %d\n", head->value.Price);
+			printf("库存:             %d\n", head->value.All_Have);
+			printf("借出:             %d\n", head->value.Borrownum);
+			printf("在库:             %d\n", head->value.All_Have - head->value.Borrownum);
+			printf("总借出:           %d\n\n\n", head->value.AllBorrow);
 		}
 	END
 }
@@ -281,21 +282,21 @@ void add_people(PList *head)
 		PList *temp = (PList*)malloc(sizeof(PList));
 	temp->next = NULL;
 	char ID[MAX_NAME];
-	printf("Please input add ID.\n");
+	printf("请输入需要添加的ID.\n");
 	scanf("%s", temp->value.ID);
 	if (find_people_information_byID(head, temp->value.ID))
-		printf("Error!People is exist!\n"), free(temp);
+		printf("错误!用户已存在!\n"), free(temp);
 	else
 	{
-		printf("Please input student or teacher.   1.student   0.teacher\n");
+		printf("请输入用户类别.   1.学生   0.教师\n");
 		temp->value.Category = avaliable(0, 1, 3);
-		printf("Please input name.\n");
+		printf("请输入姓名.\n");
 		scanf("%s", temp->value.Name);
-		printf("Please input libriary card number.\n");
+		printf("请输入借书号.\n");
 		scanf("%s", temp->value.LCardNumber);
 		if (temp->value.Category)
 		{
-			printf("Please input class\n");
+			printf("请输入班级\n");
 			scanf("%d", &(temp->value.clas));
 			temp->value.AllAvaliableBorrowNum = MAX_AVALIABLE_NUM / 2;
 		}
@@ -305,7 +306,7 @@ void add_people(PList *head)
 		temp->value.key = 1;
 		while (head->next) head = head->next;
 		head->next = temp;
-		printf("Aded\n\n\n");
+		printf("已添加\n\n\n");
 	}
 	END
 }
@@ -314,25 +315,25 @@ void find_people(PList*head)
 {
 	START
 		char ID[MAX_NAME];
-	printf("Please input find ID.\n");
+	printf("请输入查找ID.\n");
 	scanf("%s", ID);
 	PList*current = find_people_information_byID(head, ID);
 	if (current)
 	{
 		current = current->next;
 		printf("ID:               %s\n", current->value.ID);
-		printf("LCardNumber:      %s\n", current->value.LCardNumber);
-		printf("Name:             %s\n", current->value.Name);
-		printf("Avaliable Borrow: %d\n", current->value.AllAvaliableBorrowNum - current->value.BorrowNum);
+		printf("借书号:           %s\n", current->value.LCardNumber);
+		printf("姓名:             %s\n", current->value.Name);
+		printf("可借次数:         %d\n", current->value.AllAvaliableBorrowNum - current->value.BorrowNum);
 		if (current->value.Category)
-			printf("Class:            %d\n", current->value.clas);
+			printf("班级:             %d\n", current->value.clas);
 		printf("\n");
 		for (int i = 0; i < current->value.BorrowNum; i++)
 			printf("                  %s\n", current->value.BorrowName[i]);
 		printf("\n");
 	}
 	else
-		printf("%s is not exist.\n", ID);
+		printf("%s不存在.\n", ID);
 	END
 }
 
@@ -340,7 +341,7 @@ void delete_people(PList*head)
 {
 	START
 		char ID[MAX_NAME];
-	printf("Please input delete ID.\n");
+	printf("请输入需要删除的ID.\n");
 	scanf("%s", ID);
 	PList*result = find_people_information_byID(head, ID);
 	if (result)
@@ -349,10 +350,10 @@ void delete_people(PList*head)
 		result = result->next;
 		pre->next = result->next;
 		free(result);
-		printf("Deleted\n");
+		printf("已删除\n");
 	}
 	else
-		printf("%s is not exist.\n", ID);
+		printf("%s不存在.\n", ID);
 	END;
 }
 
@@ -360,7 +361,7 @@ void lose(PList*head)
 {
 	START
 		char ID[MAX_NAME];
-	printf("Please input lost ID.\n");
+	printf("请输入需要挂失的ID.\n");
 	scanf("%s", ID);
 	PList*result = find_people_information_byID(head, ID);
 	if (result)
@@ -370,7 +371,7 @@ void lose(PList*head)
 		printf("已挂失\n");
 	}
 	else
-		printf("Error,%s not exist.\n", ID);
+		printf("错误,%s不存在.\n", ID);
 	END
 }
 
@@ -378,7 +379,7 @@ void remain(PList*head)
 {
 	START
 		char ID[MAX_NAME];
-	printf("Please input remain ID.\n");
+	printf("请输入需要解冻的ID.\n");
 	scanf("%s", ID);
 	PList*result = find_people_information_byID(head, ID);
 	if (result)
@@ -388,7 +389,7 @@ void remain(PList*head)
 		printf("已解冻\n");
 	}
 	else
-		printf("Error,%s not exist.\n", ID);
+		printf("错误,%s不存在.\n", ID);
 	END
 }
 
@@ -399,11 +400,11 @@ void list_people(PList *head)
 		{
 			head = head->next;
 			printf("ID:               %s\n", head->value.ID);
-			printf("LCardNumber:      %s\n", head->value.LCardNumber);
-			printf("Name:             %s\n", head->value.Name);
-			printf("Avaliable Borrow: %d\n", head->value.AllAvaliableBorrowNum - head->value.BorrowNum);
+			printf("借书号:           %s\n", head->value.LCardNumber);
+			printf("姓名:             %s\n", head->value.Name);
+			printf("可借次数:         %d\n", head->value.AllAvaliableBorrowNum - head->value.BorrowNum);
 			if (head->value.Category)
-				printf("Class:            %d\n", head->value.clas);
+			    printf("班级:             %d\n", head->value.clas);
 			printf("\n");
 			for (int i = 0; i < head->value.BorrowNum; i++)
 				printf("                  %s\n", head->value.BorrowName[i]);
@@ -416,7 +417,7 @@ void borrow_book(BList *bhead, SList *shead, PList *phead)
 {
 	START
 		char ID[MAX_NAME], Borrow_ID[MAX_NAME];
-	printf("Please input your ID.\n");
+	printf("请输入你的ID.\n");
 	scanf("%s", ID);
 	PList *presult = find_people_information_byID(phead, ID);
 	if (presult)
@@ -424,18 +425,18 @@ void borrow_book(BList *bhead, SList *shead, PList *phead)
 		presult = presult->next;
 		if (presult->value.key)
 		{
-			printf("Please input borrow ID.\n", Borrow_ID);
+			printf("请输入书籍编号.\n", Borrow_ID);
 			scanf("%s", Borrow_ID);
 			SList*sresult = find_store_book(shead, Borrow_ID);
 			if (!sresult)
 			{
-				printf("%s is not exist.\n", Borrow_ID);
+				printf("%s不存在.\n", Borrow_ID);
 				END
 					return;
 			}
 			if (presult->value.BorrowNum >= presult->value.AllAvaliableBorrowNum)
 			{
-				printf("sorry,you can't borrow more book.\n");
+				printf("对不起，您的所借数目已达上限.\n");
 				END
 					return;
 			}
@@ -443,7 +444,7 @@ void borrow_book(BList *bhead, SList *shead, PList *phead)
 			if ((sresult->value.All_Have - sresult->value.Borrownum) > 0)
 			{
 				BList*temp = (BList*)malloc(sizeof(BList));
-				write_date(&(temp->value.Borrow_Date), "Please input borrow date.");
+				write_date(&(temp->value.Borrow_Date), "请输入借书日期.");
 				temp->next = NULL;
 				strcpy(temp->value.Book_Name, sresult->value.Book_Name);
 				strcpy(temp->value.Index, sresult->value.Index);
@@ -466,7 +467,7 @@ void borrow_book(BList *bhead, SList *shead, PList *phead)
 			printf(" 对不起，你的账号已冻结\n");
 	}
 	else
-		printf("%s is not exist.\n", ID);
+		printf("%s不存在.\n", ID);
 	END
 }
 
@@ -476,10 +477,10 @@ void list_borrow_book(BList *head)
 		while (head->next)
 		{
 			head = head->next;
-			printf("Index:       %s\n", head->value.Index);
-			printf("Book Name:   %s\n", head->value.Book_Name);
-			printf("Borrow ID:   %s\n", head->value.LCardNumber);
-			printf("Borrow Date: "); read_date(head->value.Borrow_Date);
+			printf("编号:           %s\n", head->value.Index);
+			printf("书名:           %s\n", head->value.Book_Name);
+			printf("借书号:         %s\n", head->value.LCardNumber);
+			printf("借书日期:       "); read_date(head->value.Borrow_Date);
 			printf("\n\n");
 		}
 	END
@@ -527,18 +528,18 @@ void return_book(BList *bhead, SList *shead, PList *phead)
 {
 	START
 		char ID[MAX_NAME], Borrow_ID[MAX_NAME];
-	printf("Please input your ID.\n");
+	printf("请输入您的ID.\n");
 	scanf("%s", ID);
 	PList *presult = find_people_information_byID(phead, ID);
 	if (presult)
 	{
 		presult = presult->next;
-		printf("Please input return ID.\n", Borrow_ID);
+		printf("请输入编号.\n", Borrow_ID);
 		scanf("%s", Borrow_ID);
 		SList*sresult = find_store_book(shead, Borrow_ID);
 		if (!sresult)
 		{
-			printf("%s is not exist.\n", Borrow_ID);
+			printf("%s不存在.\n", Borrow_ID);
 			END
 				return;
 		}
@@ -554,7 +555,7 @@ void return_book(BList *bhead, SList *shead, PList *phead)
 #endif
 		if (!find_sign(presult->value.BorrowID, Borrow_ID, presult->value.BorrowNum))
 		{
-			printf("No,you not have this book!\n");
+			printf("错误，你没有这本书!\n");
 			END;
 			return;
 		}
@@ -569,7 +570,7 @@ void return_book(BList *bhead, SList *shead, PList *phead)
 		printf("已还书\n");
 	}
 	else
-		printf("%s is not exist.\n", ID);
+		printf("%s不存在.\n", ID);
 	END
 }
 
@@ -578,7 +579,7 @@ void save(BList *bhead, SList *shead, PList *phead)
 	START
 		FILE *fp;
 	if ((fp = fopen("BList", "w")) == NULL)
-		printf("Error! can't creat file.\n");
+		printf("错误! 不能创建文件.\n");
 	else
 	{
 		while (bhead->next)
@@ -593,7 +594,7 @@ void save(BList *bhead, SList *shead, PList *phead)
 	}
 	fclose(fp);
 	if ((fp = fopen("SList", "w")) == NULL)
-		printf("Error! can't creat file.\n");
+		printf("错误! 不能创建文件.\n");
 	else
 	{
 		while (shead->next)
@@ -614,7 +615,7 @@ void save(BList *bhead, SList *shead, PList *phead)
 		fclose(fp);
 	}
 	if ((fp = fopen("PList", "w")) == NULL)
-		printf("Error! can't creat file.\n");
+		printf("错误! 不能创建文件.\n");
 	else
 	{
 		while (phead->next)
@@ -637,7 +638,7 @@ void save(BList *bhead, SList *shead, PList *phead)
 		}
 		fclose(fp);
 	}
-	printf("Saved\n\n");
+	printf("已保存\n\n");
 	END
 }
 
@@ -646,7 +647,7 @@ void load(BList *bhead, SList *shead, PList *phead)
 	START
 		FILE *fp;
 	if ((fp = fopen("BList", "r")) == NULL)
-		printf("Error! can't open file.\n");
+		printf("错误! 不能打开文件.\n");
 	else
 	{
 		char temp[MAX_NAME];
@@ -666,7 +667,7 @@ void load(BList *bhead, SList *shead, PList *phead)
 	}
 
 	if ((fp = fopen("SList", "r")) == NULL)
-		printf("Error! can't open file.\n");
+		printf("错误! 不能打开文件.\n");
 	else
 	{
 		int temp;
@@ -691,7 +692,7 @@ void load(BList *bhead, SList *shead, PList *phead)
 		fclose(fp);
 	}
 	if ((fp = fopen("PList", "r")) == NULL)
-		printf("Error! can't open file.\n");
+		printf("错误! 不能打开文件.\n");
 	else
 	{
 		int temp;
@@ -718,7 +719,7 @@ void load(BList *bhead, SList *shead, PList *phead)
 		}
 		fclose(fp);
 	}
-	printf("Loaded\n\n");
+	printf("已载入\n\n");
 	END
 }
 
@@ -799,17 +800,17 @@ void sort_book(SList *head)
 	qsort(Data, all, sizeof(SList), cmp);
 	for (int i = 0; i < all; i++)
 	{
-		printf("Book name:                   %s\n", Data[i].value.Book_Name);
-		printf("Author name:                 %s\n", Data[i].value.Author_Name);
-		printf("Press name:                  %s\n", Data[i].value.Press);
-		printf("Category:                    %s\n", Data[i].value.Category);
-		printf("Press date:                  "); read_date(Data[i].value.Press_Date);
-		printf("Price:                       %d\n", Data[i].value.Price);
-		printf("All have numnber:            %d\n", Data[i].value.All_Have);
-		printf("Borrow number:               %d\n", Data[i].value.Borrownum);
-		printf("Current have number:         %d\n", Data[i].value.All_Have - Data[i].value.Borrownum);
+		printf("书名:                    %s\n", Data[i].value.Book_Name);
+		printf("作者:                    %s\n", Data[i].value.Author_Name);
+		printf("出版社:                  %s\n", Data[i].value.Press);
+		printf("类别:                    %s\n", Data[i].value.Category);
+		printf("出版日期:                "); read_date(Data[i].value.Press_Date);
+		printf("价格:                    %d\n", Data[i].value.Price);
+		printf("总库存:                  %d\n", Data[i].value.All_Have);
+		printf("借出:                    %d\n", Data[i].value.Borrownum);
+		printf("在库:                    %d\n", Data[i].value.All_Have - Data[i].value.Borrownum);
 		printf("****************************************************************\n");
-		printf("All borrow number:           %d\n\n", Data[i].value.AllBorrow);
+		printf("总借出:                  %d\n\n", Data[i].value.AllBorrow);
 		printf("****************************************************************\n");
 	}
 	END
