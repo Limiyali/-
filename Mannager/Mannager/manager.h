@@ -734,4 +734,92 @@ void sort_book(rbtree *tree)
 	free(data);
 	END
 }
+
+void randbook(rbtree *tree)
+{
+	START
+	int n;
+	srand(time(NULL));
+	printf("Numbers\n");
+	scanf("%d", &n);
+	/*
+	if (!tree->root)
+	{
+		Store*data = (Store*)malloc(sizeof(Store));
+		itoa(0, data->Index, 10);
+			itoa(0, data->Book_Name, 10);
+			itoa(0, data->Author_Name, 10);
+			itoa(0, data->Press, 10);
+			itoa(0, data->Category, 10);
+			data->Press_Date.Day = rand() % 31;
+			data->Press_Date.Month = rand() % 12;
+			data->Press_Date.Year = rand() % 2017;
+			data->Price = rand() % 1000;
+			data->All_Have = rand() % 10;
+			data->Borrownum = 0;
+			data->Current_Have = data->All_Have;
+			data->AllBorrow = 0;
+			all_book++;
+	}*/
+	for (int i = 0; i < n; i++)
+	{
+
+		Store*data = (Store*)malloc(sizeof(Store));
+		itoa(i, data->Index, 10);
+		if (rbtree_lookup(tree, data->Index))
+			free(data);
+		else
+		{
+			itoa(i, data->Book_Name, 10);
+			itoa(i, data->Author_Name, 10);
+			itoa(i, data->Press, 10);
+			itoa(i / 100, data->Category, 10);
+			data->Press_Date.Day = rand() % 31;
+			data->Press_Date.Month = rand() % 12;
+			data->Press_Date.Year = rand() % 2017;
+			data->Price = rand() % 1000;
+			data->All_Have = rand() % 10;
+			data->Borrownum = 0;
+			data->Current_Have = data->All_Have;
+			data->AllBorrow = 0;
+			rbtree_insert(tree, data->Index, data);
+			all_book++;
+			//printf("已添加\n\n");
+		}
+	}
+	printf("成功 %d\n", all_book);
+	END
+}
+int top; int real = 0;
+void __printf_store(struct rbtree_node* node)
+{
+	if (!node) return;
+	Store*head = (Store*)node->data;
+	printf("书名:             %s\n", head->Book_Name);
+	printf("作者:             %s\n", head->Author_Name);
+	printf("出版社:           %s\n", head->Press);
+	printf("类别:             %s\n", head->Category);
+	printf("出版日期:         "); read_date(head->Press_Date);
+	printf("价格:             %d\n", head->Price);
+	printf("库存:             %d\n", head->All_Have);
+	printf("借出:             %d\n", head->Borrownum);
+	printf("在库:             %d\n", head->All_Have - head->Borrownum);
+	printf("总借出:           %d\n\n\n", head->AllBorrow);
+	real++;
+	if (node->left && real<top)
+		__printf_store(node->left);
+	if (node->right && real<top)
+		__printf_store(node->right);
+}
+
+void list_top(rbtree*tree)
+{
+
+	START
+		printf("Nmbers\n");
+		scanf("%d", &top);
+		__printf_store(tree->root);
+		real = 0;
+	END
+}
 #pragma once

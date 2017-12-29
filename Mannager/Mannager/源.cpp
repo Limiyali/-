@@ -69,6 +69,12 @@ int main()
 		case 20:                           //清空
 			empty(stree, ptree, btree);
 			break;
+		case -1:                            //随机生成
+			randbook(stree);
+			break;
+		case -2:
+			list_top(stree);
+			break;
 		default:
 			break;
 		}
