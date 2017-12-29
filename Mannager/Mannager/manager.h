@@ -137,6 +137,7 @@ void find_book_store(rbtree *tree)
 		printf("借出:                   %d\n", data->Borrownum);
 		printf("在库:                   %d\n", data->All_Have - data->Borrownum);
 		printf("总借出:                 %d\n", data->AllBorrow);
+		END
 		return;
 	}
 	printf("%s 不存在!\n", temp);
@@ -525,46 +526,46 @@ void spt(void *node, FILE*fp)
 {
 	rbtree_node *temp = (rbtree_node*)node;
 	Store*sdata = (Store*)temp->data;
-	fprintf(fp, "%d\n", sdata->AllBorrow);
-	fprintf(fp, "%d\n", sdata->All_Have);
-	fprintf(fp, "%s\n", sdata->Author_Name);
-	fprintf(fp, "%s\n", sdata->Book_Name);
-	fprintf(fp, "%d\n", sdata->Borrownum);
-	fprintf(fp, "%s\n", sdata->Category);
-	fprintf(fp, "%d\n", sdata->Current_Have);
-	fprintf(fp, "%s\n", sdata->Index);
-	fprintf(fp, "%s\n", sdata->Press);
-	fprintf(fp, "%d\n", sdata->Price);
+	fprintf(fp, "%d ", sdata->AllBorrow);
+	fprintf(fp, "%d ", sdata->All_Have);
+	fprintf(fp, "%s ", sdata->Author_Name);
+	fprintf(fp, "%s ", sdata->Book_Name);
+	fprintf(fp, "%d ", sdata->Borrownum);
+	fprintf(fp, "%s ", sdata->Category);
+	fprintf(fp, "%d ", sdata->Current_Have);
+	fprintf(fp, "%s ", sdata->Index);
+	fprintf(fp, "%s ", sdata->Press);
+	fprintf(fp, "%d ", sdata->Price);
 	fprintf(fp, "%d %d %d\n", sdata->Press_Date.Year, sdata->Press_Date.Month, sdata->Press_Date.Day);
 }
 void ppt(void *node, FILE*fp)
 {
 	rbtree_node *temp = (rbtree_node*)node;
 	People*pdata = (People*)temp->data;
-	fprintf(fp, "%d\n", pdata->AllAvaliableBorrowNum);
-	fprintf(fp, "%d\n", pdata->BorrowNum);
+	fprintf(fp, "%d ", pdata->AllAvaliableBorrowNum);
+	fprintf(fp, "%d ", pdata->BorrowNum);
 	int i = 0;
 	for (; i < pdata->BorrowNum; i++)
 	{
-		fprintf(fp, "%s\n", pdata->BorrowID[i]);
-		fprintf(fp, "%s\n", pdata->BorrowName[i]);
+		fprintf(fp, "%s ", pdata->BorrowID[i]);
+		fprintf(fp, "%s ", pdata->BorrowName[i]);
 	}
-	fprintf(fp, "%d\n", pdata->Category);
-	fprintf(fp, "%d\n", pdata->clas);
-	fprintf(fp, "%s\n", pdata->ID);
-	fprintf(fp, "%d\n", pdata->key);
-	fprintf(fp, "%s\n", pdata->LCardNumber);
-	fprintf(fp, "%s\n", pdata->Name);
+	fprintf(fp, "%d ", pdata->Category);
+	fprintf(fp, "%d ", pdata->clas);
+	fprintf(fp, "%s ", pdata->ID);
+	fprintf(fp, "%d ", pdata->key);
+	fprintf(fp, "%s ", pdata->LCardNumber);
+	fprintf(fp, "%s \n", pdata->Name);
 }
 void bpt(void *node, FILE*fp)
 {
 	rbtree_node *temp = (rbtree_node*)node;
 	Book*bdata = (Book*)temp->data;
-	fprintf(fp, "%s\n", bdata->Book_Name);
-	fprintf(fp, "%s\n", bdata->OnlyBorrowCode);
-	fprintf(fp, "%d %d %d\n", bdata->Borrow_Date.Year, bdata->Borrow_Date.Month, bdata->Borrow_Date.Day);
-	fprintf(fp, "%s\n", bdata->LCardNumber);
-	fprintf(fp, "%s\n", bdata->Index);
+	fprintf(fp, "%s ", bdata->Book_Name);
+	fprintf(fp, "%s ", bdata->OnlyBorrowCode);
+	fprintf(fp, "%d %d %d", bdata->Borrow_Date.Year, bdata->Borrow_Date.Month, bdata->Borrow_Date.Day);
+	fprintf(fp, "%s ", bdata->LCardNumber);
+	fprintf(fp, "%s ", bdata->Index);
 	fprintf(fp, "%d\n", bdata->Price);
 }
 void srt(void *node, FILE*fp)
@@ -635,11 +636,12 @@ void save(rbtree *stree, rbtree *ptree, rbtree *btree)
 	printf("已保存\n\n");
 	END
 }
-
+void empty(rbtree *stree, rbtree *ptree, rbtree *btree);
 void load(rbtree *stree, rbtree *ptree, rbtree *btree)
 {
 	START
-		treefdot(stree, "STREE", srt);
+		empty(stree, ptree, btree);
+	treefdot(stree, "STREE", srt);
 	treefdot(ptree, "PTREE", prt);
 	treefdot(btree, "BTREE", brt);
 	FILE*fp = fopen("ALL", "r");

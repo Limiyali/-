@@ -602,7 +602,7 @@ int tree2dot(struct rbtree* tree, char* filename, ptdata pt)
 		fprintf(stderr, "open failed \n");
 		return -1;
 	}
-	if (!tree->root) fclose(stream); return 0;
+	if (!tree->root) { fclose(stream); return 0; }
 	__tree2dot(tree->root, stream, pt);
 	fclose(stream);
 	return 0;
@@ -658,7 +658,10 @@ int treefdot(struct rbtree* tree, char* filename, rtdata rt)
 		return -1;
 	}
 	tree->root = (rbtree_node*)malloc(sizeof(rbtree_node));
-	if (!__rtreefdot(tree->root, stream, rt)) free(tree->root); tree->root = NULL;
+	if (!__rtreefdot(tree->root, stream, rt)) {
+		free(tree->root); 
+		tree->root = NULL;
+	}
 	fclose(stream);
 	return 0;
 
