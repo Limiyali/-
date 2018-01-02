@@ -318,9 +318,9 @@ struct rbtree_node* __rbtree_insert(struct rbtree_node* node, struct rbtree *tre
 
 	while ((parent = get_parent(node)) != NULL && parent->color == RB_RED)
 	{
-		struct rbtree_node* grandpa = get_parent(parent);//grandpa must be existed 
-														 //because root is black ,and parent is red,
-														 //parent can not be root of tree. and parent is red,so grandpa must be black
+		struct rbtree_node* grandpa = get_parent(parent);
+														 
+														 
 		if (parent == grandpa->left)
 		{
 			struct rbtree_node* uncle = grandpa->right;
@@ -456,7 +456,7 @@ void delete_case4(struct rbtree* t, struct rbtree_node* n)
 		get_color(sibling(n)->left) == RB_BLACK &&
 		get_color(sibling(n)->right) == RB_BLACK)
 	{
-		sibling(n)->color = RB_RED; //sibling's two son is black ,so it can changed to red
+		sibling(n)->color = RB_RED; 
 		n->parent->color = RB_BLACK;
 	}
 	else
@@ -524,7 +524,7 @@ void __rbtree_remove(struct rbtree_node* node, struct rbtree* tree)
 		delete_case1(tree, node);
 	}
 	replace_node(tree, node, child);
-	if (node->parent == NULL && child != NULL)//node is root,root should be black
+	if (node->parent == NULL && child != NULL)
 		set_color(RB_BLACK, child);
 	free(node);
 }
