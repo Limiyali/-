@@ -1,6 +1,6 @@
 #include "rbtree.h"
 #define MAX_AVALIABLE_NUM 10
-#define START printf("------------------------------------start----------------------------------\n\n");
+#define START printf("------------------------------------start----------------------------------\n");
 #define END printf("--------------------------------------end----------------------------------\n\n");
 #pragma warning(disable:4996)
 #define DEBUG 0
@@ -74,7 +74,7 @@ void write_date(Date *A, char B[])
 
 void read_date(Date A)
 {
-	printf("%d %d %d\n", A.Year, A.Month, A.Day);
+	printf("%d %d %d\t", A.Year, A.Month, A.Day);
 }
 
 int compare(void* key_a, void* key_b)
@@ -89,7 +89,7 @@ void add_book_store(rbtree *tree)
 		Store*data = (Store*)malloc(sizeof(Store));
 	printf("请输入书籍编号.\n");
 	scanf("%s", data->Index);
-	if (rbtree_lookup(tree,data->Index))
+	if (rbtree_lookup(tree, data->Index))
 		printf("错误！书籍已存在！\n"), free(data);
 	else
 	{
@@ -138,7 +138,7 @@ void find_book_store(rbtree *tree)
 		printf("在库:                   %d\n", data->All_Have - data->Borrownum);
 		printf("总借出:                 %d\n", data->AllBorrow);
 		END
-		return;
+			return;
 	}
 	printf("%s 不存在!\n", temp);
 	END
@@ -193,18 +193,19 @@ void delete_book_store(rbtree*tree)
 
 void printf_store(struct rbtree_node* node)
 {
+	printf("书名\t\t\t作者\t\t出版社\t\t类别\t出版日期\t价格\t库存\t借出\t在库\t总借出\t\n\n");
 	if (!node) return;
 	Store*head = (Store*)node->data;
-	printf("书名:             %s\n", head->Book_Name);
-	printf("作者:             %s\n", head->Author_Name);
-	printf("出版社:           %s\n", head->Press);
-	printf("类别:             %s\n", head->Category);
-	printf("出版日期:         "); read_date(head->Press_Date);
-	printf("价格:             %d\n", head->Price);
-	printf("库存:             %d\n", head->All_Have);
-	printf("借出:             %d\n", head->Borrownum);
-	printf("在库:             %d\n", head->All_Have - head->Borrownum);
-	printf("总借出:           %d\n\n\n", head->AllBorrow);
+	printf("%s\t", head->Book_Name);
+	printf("%s\t", head->Author_Name);
+	printf("%s\t", head->Press);
+	printf("%s\t", head->Category);
+	printf(""); read_date(head->Press_Date);
+	printf("%d\t", head->Price);
+	printf("%d\t", head->All_Have);
+	printf("%d\t", head->Borrownum);
+	printf("%d\t", head->All_Have - head->Borrownum);
+	printf("%d\t\n\n", head->AllBorrow);
 	if (node->left)
 		printf_store(node->left);
 	if (node->right)
@@ -356,7 +357,7 @@ void list_people(rbtree *tree)
 	END
 }
 
-void creat_only(Store* sdata,People *pdata,Book *bdata)
+void creat_only(Store* sdata, People *pdata, Book *bdata)
 {
 	strcpy(bdata->OnlyBorrowCode, pdata->ID);
 	strcat(bdata->OnlyBorrowCode, sdata->Index);
@@ -512,7 +513,7 @@ void return_book(rbtree *stree, rbtree *ptree, rbtree *btree)
 		(sdata->Current_Have)++;
 		(pdata->BorrowNum)--;
 		delte_sign(pdata->BorrowName, bdata->Book_Name, pdata->BorrowNum);
-		delte_sign(pdata->BorrowID,bdata->Index, pdata->BorrowNum);
+		delte_sign(pdata->BorrowID, bdata->Index, pdata->BorrowNum);
 		rbtree_remove(btree, result);
 		all_borrowing--;
 		printf("已还书\n");
@@ -619,7 +620,7 @@ void brt(void *node, FILE*fp)
 	fscanf(fp, "%d", &(bdata->Price));
 	temp->key = bdata->OnlyBorrowCode;
 	temp->data = bdata;
-	
+
 }
 
 void save(rbtree *stree, rbtree *ptree, rbtree *btree)
@@ -662,7 +663,7 @@ void load(rbtree *stree, rbtree *ptree, rbtree *btree)
 void help()
 {
 	START
-		printf("0.显示帮助\n1.添加新书\n2.找书\n3.编辑库存资料\n4.删除书\n5.列出书\n6.添加借书证\n7.查找\
+		printf("1.添加新书\n2.找书\n3.编辑库存资料\n4.删除书\n5.列出书\n6.添加借书证\n7.查找\
 借书证\n8.注销\n9.挂失\n10.解冻\n11.列出所有成员\n12.借书\n13.列出借的书\n14.还书\n15.加载数据\n16.保存数据\n17.人气排序\n20.删库跑路\n");
 	END;
 }
@@ -700,7 +701,7 @@ int cmp(const void *a, const void *b)
 	return (c->AllBorrow < d->AllBorrow);
 }
 int current = 0;
-void list_book(rbtree_node*node,Store*data)
+void list_book(rbtree_node*node, Store*data)
 {
 	if (!node) return;
 	data[current] = *((Store*)node->data);
@@ -740,28 +741,28 @@ void sort_book(rbtree *tree)
 void randbook(rbtree *tree)
 {
 	START
-	int n;
+		int n;
 	srand(time(NULL));
 	printf("Numbers\n");
 	scanf("%d", &n);
 	/*
 	if (!tree->root)
 	{
-		Store*data = (Store*)malloc(sizeof(Store));
-		itoa(0, data->Index, 10);
-			itoa(0, data->Book_Name, 10);
-			itoa(0, data->Author_Name, 10);
-			itoa(0, data->Press, 10);
-			itoa(0, data->Category, 10);
-			data->Press_Date.Day = rand() % 31;
-			data->Press_Date.Month = rand() % 12;
-			data->Press_Date.Year = rand() % 2017;
-			data->Price = rand() % 1000;
-			data->All_Have = rand() % 10;
-			data->Borrownum = 0;
-			data->Current_Have = data->All_Have;
-			data->AllBorrow = 0;
-			all_book++;
+	Store*data = (Store*)malloc(sizeof(Store));
+	itoa(0, data->Index, 10);
+	itoa(0, data->Book_Name, 10);
+	itoa(0, data->Author_Name, 10);
+	itoa(0, data->Press, 10);
+	itoa(0, data->Category, 10);
+	data->Press_Date.Day = rand() % 31;
+	data->Press_Date.Month = rand() % 12;
+	data->Press_Date.Year = rand() % 2017;
+	data->Price = rand() % 1000;
+	data->All_Have = rand() % 10;
+	data->Borrownum = 0;
+	data->Current_Have = data->All_Have;
+	data->AllBorrow = 0;
+	all_book++;
 	}*/
 	for (int i = 0; i < n; i++)
 	{
@@ -819,9 +820,9 @@ void list_top(rbtree*tree)
 
 	START
 		printf("Nmbers\n");
-		scanf("%d", &top);
-		__printf_store(tree->root);
-		real = 0;
+	scanf("%d", &top);
+	__printf_store(tree->root);
+	real = 0;
 	END
 }
 #pragma once
