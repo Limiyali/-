@@ -77,18 +77,6 @@ static int is_root(struct rbtree_node* node)
 	return (get_parent(node) == NULL);
 }
 
-static inline int is_black(struct rbtree_node* node)
-{
-	assert(node != NULL);
-	return (get_color(node) == RB_BLACK);
-}
-
-static inline int is_red(struct rbtree_node *node)
-{
-	assert(node != NULL);
-	return (get_color(node) == RB_RED);
-}
-
 struct rbtree_node* sibling(rbtree_node* node)
 {
 	assert(node != NULL);
@@ -108,16 +96,6 @@ static inline rbtree_node* get_min(struct rbtree_node* node)
 	return node;
 }
 
-static inline rbtree_node* get_max(struct rbtree_node* node)
-{
-	assert(node != NULL);
-	while (node->right)
-	{
-		node = node->right;
-	}
-	return node;
-}
-
 struct rbtree_node* rbtree_min(struct rbtree *tree)
 {
 	if (tree->root == NULL)
@@ -125,51 +103,6 @@ struct rbtree_node* rbtree_min(struct rbtree *tree)
 	else
 	{
 		return get_min(tree->root);
-	}
-}
-
-struct rbtree_node* rbtree_max(struct rbtree* tree)
-{
-	if (tree->root == NULL)
-		return NULL;
-	else
-	{
-		return get_max(tree->root);
-	}
-}
-
-struct rbtree_node* rbtree_prev(struct rbtree_node* node)
-{
-	assert(node != NULL);
-	if (node->left)
-	{
-		return get_max(node->left);
-	}
-	else
-	{
-		struct rbtree_node* parent;
-		while ((parent = get_parent(node)) && parent->left == node)
-		{
-			node = parent;
-		}
-		return parent;
-	}
-}
-
-struct rbtree_node* rbtree_next(struct rbtree_node* node)
-{
-	assert(node != NULL);
-
-	if (node->right)
-		return get_min(node->right);
-	else
-	{
-		struct rbtree_node* parent = NULL;
-		while ((parent = get_parent(node)) != NULL && parent->right == node)
-		{
-			node = parent;
-		}
-		return parent;
 	}
 }
 
